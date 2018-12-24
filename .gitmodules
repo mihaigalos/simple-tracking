@@ -1,0 +1,3 @@
+[submodule "rviz_tools_py"]
+	path = src/rviz_tools_py
+	url = https://github.com/DavidB-CMU/rviz_tools_py.git
