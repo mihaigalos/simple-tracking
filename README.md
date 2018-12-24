@@ -1,5 +1,5 @@
 # SimpleTracking
-Simple object tracking based on cinematic model and Kalman filtering.
+Simple object tracking based on constant acceleration cinematic model and Kalman filtering.
 
 ## Prerequisites
 * [ROS](http://wiki.ros.org/Installation/Ubuntu)
