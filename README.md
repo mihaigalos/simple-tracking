@@ -22,7 +22,7 @@ python src/tracking.py
 ```
 Fire up rviz with `rviz &`. Now click on `Add` and add a new `Marker`. The tracker automatically
 publishes on `/visualization_marker`, so no need to adjust anything. You should see a moving green box
-and over it, the predicted position for it.
+and over it, the predicted position for it, in a dark semi-transparent cube.
 
 ## Screenshot
 ![alt text](screenshots/tracking_screenshot.png)

@@ -12,7 +12,7 @@ import collections  # for deque
 
 
 theta = 0
-radius = 5
+radius = 1.5
 
 
 class KalmanWrapper:
