@@ -3,15 +3,12 @@ Simple object tracking implemented in Python 2 using ROS and PyKalman.
 """
 #!/usr/bin/env python
 
-
-import math
-from pprint import pprint
 import collections  # for deque
 from pykalman import KalmanFilter
-from geometry_msgs.msg import Pose, Point, Quaternion
 import rviz_tools_py as rviz_tools
 import rospy
-from tf.transformations import quaternion_from_euler
+
+from cinematic_models import ConstantAccelerationPoseCalculator
 
 
 class KalmanWrapper(object):
@@ -52,42 +49,6 @@ class KalmanWrapper(object):
         """
         prediction = self.make_prediction(measurements)
         return prediction[0]
-
-
-class ConstantAccelerationPoseCalculator(object):
-    """
-    Circular cinematic model based on constant acceleration.
-    """
-
-    def __init__(self):
-        self.radius = 1.6
-        self.theta = 0
-        self.last_pose = Pose()
-
-    def get_new_pose(self):
-        """
-        Compute new pose by incrementing the angle along an imaginary circle.
-        """
-
-        self.theta = self.theta + 0.01
-        x_pos = self.radius * math.cos(self.theta)
-        y_pos = self.radius * math.sin(self.theta)
-        z_pos = 0
-
-        quaternion = quaternion_from_euler(self.theta, 0, self.theta)
-        self.last_pose = Pose(Point(x_pos, y_pos, z_pos), Quaternion(
-            quaternion[0], quaternion[1], 0, 0))
-
-        return self.last_pose
-
-    def print_last_pose(self):
-        """
-        Pretty print last pose.
-        """
-
-        print "Current pose:"
-        pprint(self.last_pose)
-        print "\n"
 
 
 class Tracking(object):
