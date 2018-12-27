@@ -4,51 +4,12 @@ Simple object tracking implemented in Python 2 using ROS and PyKalman.
 #!/usr/bin/env python
 
 import collections  # for deque
-from pykalman import KalmanFilter
+
 import rviz_tools_py as rviz_tools
 import rospy
 
 from cinematic_models import ConstantAccelerationPoseCalculator
-
-
-class KalmanWrapper(object):
-    """
-    Wrapper for configuring and passing values to and from the Kalman KalmanFilter.
-    """
-
-    def __init__(self):
-        """
-        Transition matrix has form [x, x_dot, y, y_dot].
-        Observation matrix has same form.
-        """
-        self.transition_matrix = [[1, 1, 0, 0],
-                                  [0, 1, 0, 0],
-                                  [0, 0, 1, 1],
-                                  [0, 0, 0, 1]]
-
-        self.observation_matrix = [[1, 0, 0, 0],
-                                   [0, 0, 1, 0]]
-
-    def make_prediction(self, measurements):
-        """
-        Compute prediction of object position for the next step.
-        """
-        initial_state_mean = [measurements[0][0], 0,
-                              measurements[0][1], 0]
-
-        kf1 = KalmanFilter(transition_matrices=self.transition_matrix,
-                           observation_matrices=self.observation_matrix,
-                           initial_state_mean=initial_state_mean)
-        kf1 = kf1.em(list(measurements), n_iter=2)
-        return kf1.smooth(measurements)
-
-    def get_prediction(self, measurements):
-        """
-        Compute object position prediction based on current state and Kalman filter's
-        parameters.
-        """
-        prediction = self.make_prediction(measurements)
-        return prediction[0]
+from kalman_wrappers import KalmanWrapperCircularConstantAcceleration
 
 
 class Tracking(object):
@@ -56,18 +17,18 @@ class Tracking(object):
     Actual tracking implementation.
     """
 
-    def __init__(self, cinematic_model):
+    def __init__(self, cinematic_model, kalman_wrapper):
 
         self.markers = None
         self.update_frecuency = 100.0
         self.cinematic_model = cinematic_model
+        self.kalman_wrapper = kalman_wrapper
 
         rospy.init_node('tracking', anonymous=False,
                         log_level=rospy.INFO, disable_signals=False)
         rospy.on_shutdown(self.cleanup_node)
         self.markers = rviz_tools.RvizMarkers('/map', 'visualization_marker')
 
-        self.kalman_wrapper = KalmanWrapper()
         self.deque = collections.deque(maxlen=2)
         self.i = 0
 
@@ -104,4 +65,5 @@ class Tracking(object):
             rospy.Rate(self.update_frecuency).sleep()
 
 
-Tracking(ConstantAccelerationPoseCalculator()).run()
+Tracking(ConstantAccelerationPoseCalculator(),
+         KalmanWrapperCircularConstantAcceleration()).run()
