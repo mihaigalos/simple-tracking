@@ -95,10 +95,11 @@ class Tracking(object):
     Actual tracking implementation.
     """
 
-    def __init__(self):
+    def __init__(self, cinematic_model):
 
         self.markers = None
         self.update_frecuency = 100.0
+        self.cinematic_model = cinematic_model
 
         rospy.init_node('tracking', anonymous=False,
                         log_level=rospy.INFO, disable_signals=False)
@@ -121,7 +122,7 @@ class Tracking(object):
         Periodic update object position and tracking.
         """
         while not rospy.is_shutdown():
-            new_pose = ConstantAccelerationPoseCalculator().get_new_pose()
+            new_pose = self.cinematic_model.get_new_pose()
             cube_width = 0.6
             # pose, color, cube_width, lifetime
             self.markers.publishCube(new_pose, 'green', cube_width,
@@ -142,4 +143,4 @@ class Tracking(object):
             rospy.Rate(self.update_frecuency).sleep()
 
 
-Tracking().run()
+Tracking(ConstantAccelerationPoseCalculator()).run()
