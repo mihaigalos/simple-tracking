@@ -28,9 +28,9 @@ class ConstantAccelerationPoseCalculator(object):
         y_pos = self.radius * math.sin(self.theta)
         z_pos = 0
 
-        quaternion = quaternion_from_euler(self.theta, 0, self.theta)
+        quaternion = quaternion_from_euler(0, 0, self.theta)
         self.last_pose = Pose(Point(x_pos, y_pos, z_pos), Quaternion(
-            quaternion[0], quaternion[1], 0, 0))
+            quaternion[0], quaternion[1], quaternion[2], quaternion[3]))
 
         return self.last_pose
 
