@@ -20,7 +20,7 @@ roscore &
 source devel/setup.zsh
 python src/tracking.py
 ```
-Fire up rviz with `rviz &`. Now click on `Add` and add a new `Marker`. The tracker automatically
+Fire up rviz with `rviz launch/default_rviz.rviz &`. The tracker automatically
 publishes on `/visualization_marker`, so no need to adjust anything. You should see a moving green box
 and over it, the predicted position for it, in a dark semi-transparent cube.
 
