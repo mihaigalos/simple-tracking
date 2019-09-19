@@ -14,7 +14,7 @@ cd SimpleTracking
 catkin init
 catkin build
 ```
-In case of problems, try building with `catkin build --limit-status-rate 1 -j2`
+In case of problems, try building with `catkin build --limit-status-rate 1 -j2`.
 ## Running
 Of course all of your terminals need to source ROS as a first step..
 ```
