@@ -4,9 +4,9 @@ Simple object tracking implemented in Python 2 using ROS and PyKalman.
 #!/usr/bin/env python
 
 import collections  # for deque
-
-import rviz_tools_py as rviz_tools
 import rospy
+
+import rviz_tools_py as rviz_tools  # pylint: disable=import-error
 
 from cinematic_models import ConstantAccelerationPoseCalculator
 from kalman_wrappers import KalmanWrapperCircularConstantAcceleration
