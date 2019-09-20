@@ -1,5 +1,6 @@
 # SimpleTracking
 Simple object tracking based on constant acceleration cinematic model and Kalman filtering.
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![BCH compliance](https://bettercodehub.com/edge/badge/mihaigalos/SimpleTracking?branch=master)](https://bettercodehub.com/)
 
 ## Prerequisites
 * [ROS](http://wiki.ros.org/Installation/Ubuntu)
